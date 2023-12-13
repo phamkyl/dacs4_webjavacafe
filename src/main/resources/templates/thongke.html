@@ -1,0 +1,194 @@
+ 
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  
+    <!-- Vendor CSS Files -->
+<link th:href="@{vendor/aos/aos.css}" rel="stylesheet">
+<link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+<link th:href="@{vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+<link th:href="@{vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+<link th:href="@{vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+<!-- Thêm thư viện Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Template Main CSS File -->
+<link th:href="@{css/style_admin.css}" rel="stylesheet">
+<link th:href="@{css/form.css}" rel="stylesheet">
+</head>
+
+<div>
+  <!-- ======= Header ======= -->
+  <div layout:fragment="header">
+        <div th:replace="header :: header"></div>
+  </div>
+     <!-- ======= end Header ======= -->
+      <!-- ======= sidebar ======= -->
+  <div layout:fragment="aside">
+        <div th:replace="slidebar :: sidebar"></div>
+  </div>
+  <!-- ======= sidebar ======= -->
+    <div layout:fragment="content" >
+   <div class="Title-nav">Thống kê đơn hàng theo ngày</div>
+		<div class="wrapper">
+       
+<form th:action="@{/order-statistics}" method="get">
+    <label for="date">Chọn ngày:</label>
+    <br>
+    <input type="date" id="date" name="date" value="" required>
+    <button type="submit">Thực hiện thống kê</button>
+</form>
+
+	<div>
+	    <h3>Thống kê cho ngày: <!-- Assuming 'date' is a LocalDateTime object -->
+	<span th:text="${#dates.format(date, 'dd-MMM-yyyy')}">No date found</span>
+	</h3>
+	    <p>Số lượng đơn hàng đã xác nhận: <span th:text="${confirmedOrders}"></span></p>
+	    <p>Số lượng đơn hàng bị hủy: <span th:text="${canceledOrders}"></span></p>
+	    <p>Tổng số đơn hàng đã đặt: <span th:text="${totalOrders}"></span></p>
+	</div>
+	
+	<!-- Thống kê cho tháng -->
+	<div th:if="${#dates.format(date, 'MMMM yyyy')} != 'No date found'">
+	    <h3>Thống kê cho tháng: <span th:text="${#dates.format(date, 'MMMM yyyy')}"></span></h3>
+	    <p>Số lượng đơn hàng đã xác nhận: <span th:text="${confirmedOrdersMonth}"></span></p>
+	    <p>Số lượng đơn hàng bị hủy: <span th:text="${canceledOrdersMonth}"></span></p>
+	    <p>Tổng số đơn hàng đã đặt: <span th:text="${totalOrdersMonth}"></span></p>
+	</div>
+	
+		<!-- Thống kê cho tuần -->
+	<div th:if="${#dates.format(date, 'ww yyyy')} != 'No date found'">
+	    <h3>Thống kê cho tuần: <span th:text="${#dates.format(date, 'ww yyyy')}"></span></h3>
+	    <p>Số lượng đơn hàng đã xác nhận: <span th:text="${confirmedOrdersWeek}"></span></p>
+	    <p>Số lượng đơn hàng bị hủy: <span th:text="${canceledOrdersWeek}"></span></p>
+	    <p>Tổng số đơn hàng đã đặt: <span th:text="${totalOrdersWeek}"></span></p>
+	</div>
+	
+	<!-- Thống kê cho năm -->
+	<div th:if="${#dates.format(date, 'yyyy')} != 'No date found'">
+	    <h3>Thống kê cho năm: <span th:text="${#dates.format(date, 'yyyy')}"></span></h3>
+	    <p>Số lượng đơn hàng đã xác nhận: <span th:text="${confirmedOrdersYear}"></span></p>
+	    <p>Số lượng đơn hàng bị hủy: <span th:text="${canceledOrdersYear}"></span></p>
+	    <p>Tổng số đơn hàng đã đặt: <span th:text="${totalOrdersYear}"></span></p>
+	</div>
+</div>
+</div>
+<h1> biểu đồ thể hiện đơn theo ngày</h1>
+<canvas id="dailyChart"></canvas>
+<h1> biểu đồ thể hiện đơn theo tuần</h1>
+<canvas id="weekyChart"></canvas>
+<h1> biểu đồ thể hiện đơn theo tháng</h1>
+<canvas id="MonthChart"></canvas>
+<h1> biểu đồ thể hiện đơn theo năm</h1>
+<canvas id="YearChart"></canvas>
+<h1> thống kê số hàng đã bán theo sản phẩm </h1>
+<div th:each ="product: ${product}" th:text ="${product.quantity} - ${product.before_quantity}"> </div>
+
+<h1> thống kê số hàng  còn tồn kho theo sản phẩm</h1>
+<div th:each ="product: ${product}" th:text ="${product.before_quantity}"> </div>
+<h1> thống kê tổng số hàng đã bán </h1>
+<div th:each ="product: ${product}" th:text ="${product.quantity} - ${product.before_quantity}"> </div>
+<h1> thống kê tổng số hàng tồn kho </h1>
+
+<!--vẽ biểu đồ-->
+
+<!-- Thêm đoạn mã JavaScript sau vào phần cuối của tệp HTML của bạn -->
+<script th:inline="javascript">
+    // Hàm vẽ biểu đồ
+    function drawChart(labels, data, chartType, chartId, chartLabel) {
+        var ctx = document.getElementById(chartId).getContext('2d');
+         
+        var myChart = new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: chartLabel,
+                    data: data,
+                    backgroundColor: [
+                      'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',],
+                    borderColor: [
+                      'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Gọi hàm vẽ biểu đồ khi trang được tải
+    window.onload = function () {
+        // Dữ liệu cho biểu đồ ngày
+        var dailyLabels = ['Confirmed Orders', 'Canceled Orders', 'Total Orders'];
+        var dailyData = /*[[${dailyData}]]*/ [];
+
+        // Vẽ biểu đồ ngày
+        drawChart(dailyLabels, dailyData, 'bar', 'dailyChart', 'dailyLabels');
+
+        // Tương tự cho biểu đồ tháng, tuần, năm, ...
+        //dữ liệu biểu đồ theo tuần
+        var WeekyLabels = ['Confirmed Orders', 'Canceled Orders', 'Total Orders'];
+        var WeekyData = /*[[${weekyData}]]*/ [];
+
+        // Vẽ biểu đồ tuần
+        drawChart(WeekyLabels, WeekyData, 'bar', 'weekyChart', 'weekyLabels');
+        // dữ liệu biểu đồ theo tháng
+         var MonthLabels = ['Confirmed Orders', 'Canceled Orders', 'Total Orders'];
+        var MonthData = /*[[${weekyData}]]*/ [];
+
+        // Vẽ biểu đồ tháng
+        drawChart(MonthLabels, MonthData, 'bar', 'MonthChart', 'MonthLabels');
+        
+        // dữ liệu biểu đồ theo năm
+ 		var YearLabels = ['Confirmed Orders', 'Canceled Orders', 'Total Orders'];
+        var YearData = /*[[${weekyData}]]*/ [];
+
+        // Vẽ biểu đồ tháng
+        drawChart(YearLabels, YearData, 'bar', 'YearChart', 'YearLabels');
+     
+    };
+</script>
+
+
+
+
+
+<!--========================================================================== -->
+     <script th:src="@{vendor/purecounter/purecounter_vanilla.js}"></script>
+	<script th:src="@{vendor/aos/aos.js}"type="text/javascript"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{vendor/glightbox/js/glightbox.min.js}" ></script>
+	<script th:src="@{vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+	<script th:src="@{vendor/swiper/swiper-bundle.min.js}" ></script>
+	<script th:src="@{vendor/typed.js/typed.umd.js}" ></script>
+	<script th:src="@{vendor/waypoints/noframework.waypoints.js}"></script>
+	<script th:src="@{vendor/php-email-form/validate.js}" ></script>
+	<script th:src="@{js/main.js}"></script>
+</body>
+</html>

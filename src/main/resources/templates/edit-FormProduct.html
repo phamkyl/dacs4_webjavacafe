@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+  
+    <!-- Vendor CSS Files -->
+<link th:href="@{vendor/aos/aos.css}" rel="stylesheet">
+<link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+<link th:href="@{vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+<link th:href="@{vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+<link th:href="@{vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link th:href="@{css/style_admin.css}" rel="stylesheet">
+</head>
+
+<body>
+<div th:if="${param.success}" class="alert alert-info">You've successfully registered to our awesome app!</div>
+
+    <form th:action="@{/edit-product/{id}}" th:object="${product}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Product Id</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  readonly="readonly" th:field="*{id}" placeholder="Product ID">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Product Type:<span>*</span></label>
+                            <div class="col-sm-10">
+                                <select class="form-control" th:field="*{productTypeId}">
+                                    <option value="">Select...</option>
+                                    <option th:each="productType: ${productTypes}" th:value="${productType.id}" th:utext="${productType.name}"/>
+                                </select>
+                                <p class="text-red" th:if="${#fields.hasErrors('productTypeId')}" th:errors="*{productTypeId}"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  th:field="*{name}" />
+                                <p class="text-red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Brand</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" th:field="*{brand}" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Made in</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" th:field="*{madein}" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Price</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" th:field="*{price}" />
+                                <p class="text-red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">detail</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" th:field="*{detail}" />
+                            </div>
+                        </div>
+                        
+                       
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">title</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" th:field="*{title}" />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">quantity</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" th:field="*{quantity}" />
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">image</label>
+                            <div class="col-sm-10">
+								  <input type="file" class="form-control-file" id="imageFile" name="imageFile">
+                              <!--  <input type="file" name="newfileimage" multiple class="form-control"  th:field="*{image}" />-->
+                            </div>
+                        </div>
+                        
+                     
+
+                    </div>
+                    <!-- /.box-body -->
+                  <div class="box-footer center">
+            <a th:href="@{/list-products}">
+                <button type="button" class="btn btn-default"><i class="fa fa-right"></i> Cancel</button>
+            </a>
+            <button type="submit" class="btn btn-info pull-right"><i class="fa fa-save"></i> Save</button>
+        </div>
+                    <!-- /.box-footer -->
+                </form>
+ <script th:src="@{vendor/purecounter/purecounter_vanilla.js}"></script>
+	<script th:src="@{vendor/aos/aos.js}"type="text/javascript"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{vendor/glightbox/js/glightbox.min.js}" ></script>
+	<script th:src="@{vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+	<script th:src="@{vendor/swiper/swiper-bundle.min.js}" ></script>
+	<script th:src="@{vendor/typed.js/typed.umd.js}" ></script>
+	<script th:src="@{vendor/waypoints/noframework.waypoints.js}"></script>
+	<script th:src="@{vendor/php-email-form/validate.js}" ></script>
+	<script th:src="@{js/main.js}"></script>
+</body>
+</html>
+

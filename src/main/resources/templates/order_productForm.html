@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+  
+    <!-- Vendor CSS Files -->
+<link th:href="@{vendor/aos/aos.css}" rel="stylesheet">
+<link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+<link th:href="@{vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+<link th:href="@{vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+<link th:href="@{vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link th:href="@{css/style_admin.css}" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <form th:action="@{/save-order}" th:object="${orderProduct}" method="post">
+		
+		<div class="form-group">
+                            <label class="col-sm-2 control-label">name</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  th:field="*{nameCustomer}" placeholder="Họ và tên">
+                            </div>
+         </div>
+        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email:</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"   th:field="*{email}" placeholder="Họ và tên">
+                            </div>
+         </div>
+       
+
+        <label for="sdt">Phone:</label>
+        <input type="text" id="sdt" name="sdt" th:field="*{sdt}" required/>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" th:field="*{address}" required/>
+        
+    <!-- ... -->
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Category:<span>*</span></label>
+    <div class="col-sm-10">
+        <select class="form-control" th:field="*{category}">
+            <option value="">Select...</option>
+            <option th:each="categoryProduct : ${categories}" th:value="${categoryProduct.id}"
+                    th:text="${categoryProduct.name}"></option>
+        </select>
+        <p class="text-red" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">Product:<span>*</span></label>
+    <div class="col-sm-10">
+        <select class="form-control" th:field="*{product}">
+            <option value="">Select...</option>
+            <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+        </select>
+        <p class="text-red" th:if="${#fields.hasErrors('product')}" th:errors="*{product}"></p>
+    </div>
+</div>
+
+<!-- ... -->
+          <label for="address">quantity:</label>
+        <input type="text" id="address" name="quantity" th:field="*{quantityOder}" required/>
+           
+           <lable for = " total" > total</lable>
+           <tr th:each="orderProduct : ${listoder}">
+                                            
+                                            <td th:text="${orderProduct.quantityOder}">Brand</td>
+                                            <td th:text="${orderProduct.aprice}">Made in</td>
+                                            <td th:text="${orderProduct.total_price}">Price</td>
+                                            <td>
+		  </tr>
+     
+    
+    <!-- Allow user to add additional notes -->
+     <label for="note">Notes:</label>
+        <textarea id="note" name="note" th:field="*{note}"> </textarea>
+        
+        <!-- Add other fields as needed -->
+  <div id="totalPrice"></div>
+        <button type="submit">Order</button>
+    </form>
+ <script th:src="@{vendor/purecounter/purecounter_vanilla.js}"></script>
+	<script th:src="@{vendor/aos/aos.js}"type="text/javascript"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{vendor/glightbox/js/glightbox.min.js}" ></script>
+	<script th:src="@{vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+	<script th:src="@{vendor/swiper/swiper-bundle.min.js}" ></script>
+	<script th:src="@{vendor/typed.js/typed.umd.js}" ></script>
+	<script th:src="@{vendor/waypoints/noframework.waypoints.js}"></script>
+	<script th:src="@{vendor/php-email-form/validate.js}" ></script>
+	<script th:src="@{js/main.js}"></script>
+	 <script>
+        function calculateTotal() {
+            var selectedProduct = document.getElementById('selectedProduct');
+            var quantity = document.getElementById('quantity');
+            var totalPriceElement = document.getElementById('totalPrice');
+
+            // Get the selected option and its price
+            var selectedOption = selectedProduct.options[selectedProduct.selectedIndex];
+            var productPrice = parseFloat(selectedOption.getAttribute('data-price'));
+
+            // Calculate total price
+            var totalPrice = parseInt(quantity.value) * productPrice;
+
+            // Update the UI with the total price
+            totalPriceElement.innerText = 'Total Price: ' + totalPrice;
+        }
+    </script>
+</body>
+</html>
+

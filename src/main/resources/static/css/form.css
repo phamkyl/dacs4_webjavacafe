@@ -1,0 +1,31 @@
+.wrapper {
+    margin: 38px 0 0 330px; /* Center the wrapper horizontally */
+    max-width: 95%;
+    padding: 0 15px; /* Add padding to the sides for better spacing */
+    box-sizing: border-box; /* Include padding in the max-width calculation */
+}
+
+.Title-nav{
+	 margin: 83px auto 0; /* Center the wrapper horizontally */
+	  font-size: 30px;
+}
+
+#lb_category
+{
+	margin: auto;
+	margin-left:550px ;
+	margin-top: 55px;
+	
+}
+#bt_category
+{
+	margin: auto;
+	margin-left:600px ;
+	margin-bottom: 10px;
+}
+w-full
+{
+	width: 80%;
+	height: auto;
+}
+

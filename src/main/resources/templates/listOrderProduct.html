@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="layout">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link th:href="@{vendor/aos/aos.css}" rel="stylesheet">
+    <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+    <link th:href="@{vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+    <!-- Template Main CSS File -->
+  
+    <link th:href="@{css/style_admin.css}" rel="stylesheet">
+    <link th:href="@{css/table.css}" rel="stylesheet">
+</head>
+<body>
+		
+	  <!-- ======= Header ======= -->
+  <div layout:fragment="header">
+        <div th:replace="header :: header"></div>
+  </div>
+     <!-- ======= end Header ======= -->
+      <!-- ======= sidebar ======= -->
+  <div layout:fragment="aside">
+        <div th:replace="slidebar :: sidebar"></div>
+  </div>
+    
+  <div layout:fragment="content"  id = "content">
+	<div class = "Title-nav" > Dashboard | Order | Order - List</div>
+		<div class="wrapper">
+    <table class="table table-striped">
+        <thead class="table-header">
+        <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Date Order</th>
+            <th>Confirmed</th>
+            <th>Cancle</th>
+         
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Repeat the following block for each order -->
+        <tr th:each="orderProduct : ${listOrders}">
+            <td th:text="${orderProduct.id}"></td>
+            <td th:text="${orderProduct.product.name}"></td>
+            <td>
+                <img th:if="${orderProduct.product.image != null}" th:src="'data:image/png;base64,' + ${orderProduct.product.imageBase64}" alt="Product Image" style="max-width: 100px; max-height: 100px;"/>
+            </td>
+            <td th:text="${orderProduct.category.name}"></td>
+            <td th:text="${orderProduct.nameCustomer}"></td>
+            <td th:text="${orderProduct.email}"></td>
+            <td th:text="${orderProduct.sdt}"></td>
+            <td th:text="${orderProduct.address}"></td>
+            <td th:text="${orderProduct.quantityOder}"></td>
+            <td th:text="${orderProduct.totalPrice}"></td>
+            <td th:text="${orderProduct.dateOrder}"></td>
+          <!--  <td>
+                <span th:if="${orderProduct.orderConfirm}">Đã xác nhận</span>
+                <a th:if="${not orderProduct.orderConfirm}" th:href="@{'/order-list/confirmOrder/' + ${orderProduct.id}}">Confirm</a>
+            </td>-->
+            <td>
+			    <span th:if="${orderProduct.CancleOrder}">Đã hủy</span>
+			    <span th:if="${not orderProduct.CancleOrder and orderProduct.orderConfirm}">Đã xác nhận</span>
+			    <a th:if="${not orderProduct.CancleOrder and not orderProduct.orderConfirm}" th:href="@{'/order-list/confirmOrder/' + ${orderProduct.id}}">Confirm</a>
+			</td>
+
+
+            <th>
+				
+				 <span th:if="${orderProduct.CancleOrder}">Đã hủy</span>
+			    <a th:if="${not orderProduct.CancleOrder and not orderProduct.orderConfirm}" th:href="@{'/order-list/cancelOrder/' + ${orderProduct.id}}">Cancel</a>
+			    <span th:if="${orderProduct.orderConfirm}">No</span>
+				 
+			</th>
+            
+            
+        </tr>
+        <!-- End of repeated block -->
+        </tbody>
+    </table>
+</div>
+
+
+  </div>
+     <!-- Vendor JS Files -->
+	 
+	 <script th:src="@{vendor/purecounter/purecounter_vanilla.js}"></script>
+	<script th:src="@{vendor/aos/aos.js}"type="text/javascript"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{vendor/glightbox/js/glightbox.min.js}" ></script>
+	<script th:src="@{vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+	<script th:src="@{vendor/swiper/swiper-bundle.min.js}" ></script>
+	<script th:src="@{vendor/typed.js/typed.umd.js}" ></script>
+	<script th:src="@{vendor/waypoints/noframework.waypoints.js}"></script>
+	<script th:src="@{vendor/php-email-form/validate.js}" ></script>
+	<script th:src="@{js/main.js}"></script>
+  
+   
+</body>
+</html>

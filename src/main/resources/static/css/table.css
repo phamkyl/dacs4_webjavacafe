@@ -1,0 +1,46 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: 400;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.Title-nav{
+	 margin: 83px auto 0; /* Center the wrapper horizontally */
+	  font-size: 30px;
+}
+.table>thead {
+    vertical-align: middle;
+}
+
+.wrapper {
+    margin: 30px 0 0 330px; /* Center the wrapper horizontally */
+    max-width: 95%;
+    padding: 0 15px; /* Add padding to the sides for better spacing */
+    box-sizing: border-box; /* Include padding in the max-width calculation */
+}
+
+@media screen and (max-width: 1199px) {
+	.Title-nav{
+	 margin: 83px auto 0; /* Center the wrapper horizontally */
+	}
+	.wrapper {
+    margin: 13px auto 0; /* Center the wrapper horizontally */
+    max-width: 95%;
+    padding: 0 15px; /* Add padding to the sides for better spacing */
+    box-sizing: border-box; /* Include padding in the max-width calculation */
+    }
+    .table {
+        display: block;
+    }
+
+    .table-header,
+    .row {
+        display: block;
+        width: 100%; /* Use full width on small screens */
+        box-sizing: border-box; /* Include padding in the width calculation */
+    }
+}
